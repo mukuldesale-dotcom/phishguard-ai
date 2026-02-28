@@ -27,6 +27,12 @@ export const gameScores = pgTable("game_scores", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const session = pgTable("session", {
+  sid: text("sid").primaryKey(),
+  sess: jsonb("sess").notNull(),
+  expire: timestamp("expire").notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({ id: true });
 
 export type User = typeof users.$inferSelect;
