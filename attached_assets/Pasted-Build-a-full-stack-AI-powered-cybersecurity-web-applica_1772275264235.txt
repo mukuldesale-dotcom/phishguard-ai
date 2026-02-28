@@ -1,0 +1,173 @@
+Build a full-stack AI-powered cybersecurity web application called “CyberSathi AI”.
+
+VISION:
+CyberSathi AI is a student-focused digital safety coach that detects phishing links, scam messages, and psychological manipulation tactics while educating users through gamification and explainable AI.
+
+This should NOT look like a boring antivirus website.
+It must feel modern, intelligent, interactive, and student-friendly.
+
+-----------------------------------------
+TECH STACK
+-----------------------------------------
+Frontend:
+- React.js
+- Tailwind CSS
+- Modern dark theme with neon blue accents
+- Glassmorphism cards
+- Animated cyber-grid or subtle glowing background
+- Fully responsive (mobile-first)
+
+Backend:
+- Node.js
+- Express.js
+- MVC structure
+- Proper error handling
+- Environment variable support (.env)
+- Rate limiting middleware
+- Input validation & sanitization
+
+Database:
+- MongoDB or Supabase
+Store:
+- Users
+- Scan history
+- Game scores
+- Risk logs
+- Dashboard metrics
+
+AI:
+- Modular AI service layer
+- Compatible with Google Gemini or OpenAI
+- Structured prompt engineering
+- Always return JSON format
+- Fallback rule-based detection if AI fails
+
+Authentication:
+- JWT-based email/password login
+- Protected dashboard routes
+
+-----------------------------------------
+CORE FEATURES (UNIQUE + HACKATHON WINNING)
+-----------------------------------------
+
+1) Scam Psychology Analyzer (UNIQUE FEATURE)
+User pastes suspicious message.
+AI must detect:
+- Risk Level (Safe / Medium / High)
+- Psychological manipulation tactics:
+  * Urgency
+  * Fear
+  * Authority
+  * Reward bait
+  * Scarcity
+- Clear explanation
+- Confidence score (0–100)
+
+Return structured JSON.
+
+-----------------------------------------
+
+2) AI Link Scanner
+User pastes URL.
+Backend should:
+- Check for suspicious keywords
+- Check http vs https
+- Detect hyphen abuse
+- Combine rule-based + AI analysis
+Return:
+- Risk Level
+- Risk Score (0–100)
+- Explanation
+- Confidence
+
+Display animated circular risk gauge in UI.
+
+-----------------------------------------
+
+3) Screenshot Scam Detector
+- Upload image
+- Use OCR to extract text
+- Run AI analysis
+- Display risk explanation
+
+-----------------------------------------
+
+4) AI Safe Reply Generator (VERY UNIQUE)
+User pastes suspicious message.
+AI generates:
+- Polite
+- Safe
+- Identity-protecting reply
+Include copy-to-clipboard button.
+
+-----------------------------------------
+
+5) Phishing Awareness Game Mode
+Interactive quiz:
+- Show 5 random messages
+- User selects Real or Scam
+- Score at end
+- AI explanation per question
+- Store user awareness score
+
+Gamified design with animated feedback.
+
+-----------------------------------------
+
+6) Personal Cyber Dashboard
+Display:
+- Digital Safety Level %
+- Password strength checker
+- Public WiFi risk guide
+- Social media privacy checklist
+- Risk improvement suggestions
+- Progress bar
+
+-----------------------------------------
+DESIGN REQUIREMENTS
+-----------------------------------------
+- Dark cyber aesthetic
+- Neon blue glow accents
+- Smooth transitions
+- Framer-motion style animations
+- Clean dashboard layout
+- Modern SaaS feel
+- Student-friendly tone
+- No corporate antivirus vibe
+
+-----------------------------------------
+AI PROMPT ENGINEERING
+-----------------------------------------
+When calling AI:
+- Force JSON-only output
+- Provide structured instructions
+- Include role: “You are a cybersecurity expert helping students.”
+- Provide fallback if parsing fails
+
+-----------------------------------------
+OUTPUT REQUIREMENTS
+-----------------------------------------
+Generate:
+- Complete folder structure
+- Backend API routes
+- Controllers
+- Models
+- Frontend pages
+- Components
+- AI service module
+- Game logic
+- Example environment variables (.env.example)
+- README with setup instructions
+- Deployment instructions
+
+-----------------------------------------
+HACKATHON OPTIMIZATION
+-----------------------------------------
+- Clean architecture
+- Beginner-friendly code comments
+- Easy to deploy
+- Production-ready structure
+- No hardcoded secrets
+- Stable demo mode
+
+Make the project impressive, clean, unique, and hackathon-winning.
