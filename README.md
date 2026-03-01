@@ -27,7 +27,7 @@ PhishGuard AI uses Artificial Intelligence to:
 
 ## 🌐 Live Demo
 
-👉 https://5391438c-1472-4911-8322-e4ef131c80ad-00-2k6f17loce5e3.riker.replit.dev/
+👉 https://asset-manager--mukuldesale1.replit.app
 
 ---
 
