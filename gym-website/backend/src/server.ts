@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
+import rateLimit from 'express-rate-limit';
 
 // Load environment variables
 dotenv.config();
@@ -51,6 +52,15 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Global rate limiter - applied to all /api routes
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests. Please try again later.' },
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
@@ -61,13 +71,13 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API Routes
+// API Routes (global rate limiter applied to all /api/* endpoints)
 app.use('/api/auth', authRoutes);
-app.use('/api/workouts', workoutRoutes);
-app.use('/api/diet', dietRoutes);
-app.use('/api/calculator', calculatorRoutes);
-app.use('/api/progress', progressRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/workouts', apiLimiter, workoutRoutes);
+app.use('/api/diet', apiLimiter, dietRoutes);
+app.use('/api/calculator', apiLimiter, calculatorRoutes);
+app.use('/api/progress', apiLimiter, progressRoutes);
+app.use('/api/user', apiLimiter, userRoutes);
 
 // Handle 404 - Route not found
 app.use((req, res) => {
