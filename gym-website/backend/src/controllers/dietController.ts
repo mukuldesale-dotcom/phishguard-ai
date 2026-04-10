@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import Diet from '../models/Diet';
 import { AppError } from '../middleware/errorHandler';
 
+// Escape special regex metacharacters in user-supplied strings
+const escapeRegex = (str: string): string => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // GET /api/diet - Get all diet plans with filtering
 export const getDietPlans = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -11,10 +14,11 @@ export const getDietPlans = async (req: Request, res: Response, next: NextFuncti
     if (goal) filter.goal = goal;
     if (difficulty) filter.difficulty = difficulty;
     if (search) {
+      const safeSearch = escapeRegex(search as string);
       filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { tags: { $in: [new RegExp(search as string, 'i')] } },
+        { name: { $regex: safeSearch, $options: 'i' } },
+        { description: { $regex: safeSearch, $options: 'i' } },
+        { tags: { $in: [new RegExp(safeSearch, 'i')] } },
       ];
     }
 
@@ -46,7 +50,7 @@ export const getDietById = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-// GET /api/diet/by-goal/:goal - Get diet plans by fitness goal
+// GET /api/diet/goal/:goal - Get diet plans by fitness goal
 export const getDietByGoal = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { goal } = req.params;

@@ -1,9 +1,19 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
+import rateLimit from 'express-rate-limit';
 import { signup, login, refreshToken, logout, getMe } from '../controllers/authController';
 import authenticateToken from '../middleware/auth';
 
 const router = Router();
+
+// Strict rate limiter for authentication endpoints to prevent brute-force attacks
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests. Please try again in 15 minutes.' },
+});
 
 // Input validation rules for signup
 const signupValidation = [
@@ -22,9 +32,9 @@ const loginValidation = [
 ];
 
 // Auth routes
-router.post('/signup', signupValidation, signup);
-router.post('/login', loginValidation, login);
-router.post('/refresh', refreshToken);
+router.post('/signup', authLimiter, signupValidation, signup);
+router.post('/login', authLimiter, loginValidation, login);
+router.post('/refresh', authLimiter, refreshToken);
 router.post('/logout', authenticateToken, logout);
 router.get('/me', authenticateToken, getMe);
 

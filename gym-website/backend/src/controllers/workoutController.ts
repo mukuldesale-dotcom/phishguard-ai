@@ -4,6 +4,9 @@ import User from '../models/User';
 import { AppError } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 
+// Escape special regex metacharacters in user-supplied strings
+const escapeRegex = (str: string): string => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // GET /api/workouts - Get all public workouts with filtering
 export const getWorkouts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -25,10 +28,11 @@ export const getWorkouts = async (req: Request, res: Response, next: NextFunctio
     if (category) filter.category = category;
     if (muscleGroup) filter.muscleGroups = { $in: [muscleGroup] };
     if (search) {
+      const safeSearch = escapeRegex(search as string);
       filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { muscleGroups: { $in: [new RegExp(search as string, 'i')] } },
+        { name: { $regex: safeSearch, $options: 'i' } },
+        { description: { $regex: safeSearch, $options: 'i' } },
+        { muscleGroups: { $in: [new RegExp(safeSearch, 'i')] } },
       ];
     }
 
@@ -154,7 +158,7 @@ export const saveWorkout = async (req: AuthRequest, res: Response, next: NextFun
   }
 };
 
-// GET /api/workouts/saved - Get user's saved workouts
+// GET /api/workouts/user/saved - Get user's saved workouts
 export const getSavedWorkouts = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const user = await User.findById(req.user!.id).populate({
